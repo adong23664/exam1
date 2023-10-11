@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>MyExam1</title>
+
+    <script
+      src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.js"
+      integrity="sha384-o4ufwq3oKqc7IoCcR08YtZXmgOljhTggRwxP2CLbSqeXGtitAxwYaUln/05nJjit"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" href="./styles/style.css" />
+
+    <!-- adding Bootstrap 4 for UI components  -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <!-- SSO -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <h5 class="text-white text-center" id="WelcomeMessage">請先登入</h5>
+      <div class="btn-group ml-auto dropleft">
+        <button
+          type="button"
+          id="SignIn"
+          class="btn btn-secondary"
+          onclick="signIn()"
+        >
+          Sign In
+        </button>
+      </div>
+    </nav>
+
+    <div class="mainContainer" id="loginSuccessMessage" style="display: none">
+      <div class="header-image"></div>
+      <h3 class="event-title text-left my-4 pl-4">欲報名的活動梯次</h3>
+    </div>
+
+    <div class="container my-5">
+      <!-- 上面的兩張卡片 -->
+      <div class="row justify-content-center mb-4">
+        <!-- 卡片1 -->
+        <div class="col-md-5 mb-4">
+          <div class="card">
+            <img
+              src="https://images.unsplash.com/photo-1544470554-71345f04eba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+              class="card-img-top"
+              alt="Event Image"
+            />
+            <div class="card-body">
+              <div class="form-check mb-2 custom-control custom-radio">
+                <input
+                  class="form-check-input custom-control-input"
+                  type="radio"
+                  name="eventSelection"
+                  id="event1"
+                  onclick="updateEventDetails('event1')"
+                />
+                <label
+                  class="form-check-label custom-control-label"
+                  for="event1"
+                  >Select this event</label
+                >
+              </div>
+              <h5 class="card-title">Event 1: Summer BBQ Party</h5>
+              <p class="card-text">
+                Date: July 15, 2023<br />
+                Time: 4:00 PM to 8:00 PM<br />
+                Location: BBQ area at ABC Park<br />
+                Event Highlights: BBQ, picnic, outdoor games, music
+                performances<br />
+                Fee: Free admission
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 卡片2 -->
+        <div class="col-md-5 mb-4">
+          <div class="card">
+            <img
+              src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+              class="card-img-top"
+              alt="Event Image"
+            />
+            <div class="card-body">
+              <div class="form-check mb-2 custom-control custom-radio">
+                <input
+                  class="form-check-input custom-control-input"
+                  type="radio"
+                  name="eventSelection"
+                  id="event2"
+                  onclick="updateEventDetails('event2')"
+                />
+                <label
+                  class="form-check-label custom-control-label"
+                  for="event2"
+                  >Select this event</label
+                >
+              </div>
+              <h5 class="card-title">Event 2: Entrepreneur Lecture Series</h5>
+              <p class="card-text">
+                Date: August 10, 2023<br />
+                Time: 7:00 PM to 9:00 PM<br />
+                Location: XYZ Conference Center<br />
+                Event Highlights: Successful entrepreneurs sharing experiences,
+                Q&A session, networking<br />
+                Fee: Company employees: $50/person, Companions: $100/person
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 下面的兩張卡片 -->
+      <div class="row justify-content-center">
+        <!-- 卡片3 -->
+        <div class="col-md-5 mb-4">
+          <div class="card">
+            <img
+              src="https://plus.unsplash.com/premium_photo-1663088970147-c12282877645?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=836&q=80"
+              class="card-img-top"
+              alt="Event Image"
+            />
+            <div class="card-body">
+              <div class="form-check mb-2 custom-control custom-radio">
+                <input
+                  class="form-check-input custom-control-input"
+                  type="radio"
+                  name="eventSelection"
+                  id="event3"
+                  onclick="updateEventDetails('event3')"
+                />
+                <label
+                  class="form-check-label custom-control-label"
+                  for="event3"
+                  >Select this event</label
+                >
+              </div>
+              <h5 class="card-title">Event 3: Family Sports Day</h5>
+              <p class="card-text">
+                Date: September 3, 2023<br />
+                Time: 9:00 AM to 12:00 PM<br />
+                Location: 123 Sports Field<br />
+                Event Highlights: Parent-child sportscompetitions, health
+                seminars, game booths, free health check-ups<br />
+                Fee: Company employees: Free, Companions: $50/person
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 卡片4 -->
+        <div class="col-md-5 mb-4">
+          <div class="card">
+            <img
+              src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+              class="card-img-top"
+              alt="Event Image"
+            />
+            <div class="card-body">
+              <div class="form-check mb-2 custom-control custom-radio">
+                <input
+                  class="form-check-input custom-control-input"
+                  type="radio"
+                  name="eventSelection"
+                  id="event4"
+                  onclick="updateEventDetails('event4')"
+                />
+                <label
+                  class="form-check-label custom-control-label"
+                  for="event4"
+                  >Select this event</label
+                >
+              </div>
+              <h5 class="card-title">Event 4: Charity Run</h5>
+              <p class="card-text">
+                Date: October 15, 2023<br />
+                Time: 8:00 AM to 11:00 AM<br />
+                Location: City Park<br />
+                Event Highlights: 5K charity run, live music performances, food
+                stalls, photo booth, lucky draw prizes<br />
+                Fee: Company employees: $100/person, Companions: $300/person
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card Div end -->
+    </div>
+
+    <!-- 下方的活動細節顯示 -->
+    <div class="d-flex justify-content-center mt-5">
+      <div id="eventDetailDiv" class="w-50"></div>
+    </div>
+
+    <!-- 表單內容 -->
+    <h3 class="event-title text-left my-4 pl-4">報名者</h3>
+    <div class="container mt-5">
+      <form id="form">
+        <!-- 姓名 -->
+        <div class="form-row">
+          <div class="col-6">
+            <label for="firstName">姓</label>
+            <input
+              type="text"
+              class="form-control mb-3"
+              id="firstName"
+              placeholder="請輸入您的姓"
+              required
+            />
+          </div>
+          <div class="col-6">
+            <label for="lastName">名</label>
+            <input
+              type="text"
+              class="form-control mb-3"
+              id="lastName"
+              placeholder="請輸入您的名"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- 電話 -->
+        <div class="form-row">
+          <div class="col-4">
+            <label for="areaCode">地區</label>
+            <select class="form-control mb-3" id="areaCode">
+              <option value="01" disabled>01 南京</option>
+              <option value="02">02 基隆、台北</option>
+              <option value="03">03 桃園、新竹、宜蘭、花蓮</option>
+              <option value="037">037 苗栗</option>
+              <option value="04">04 台中、彰化</option>
+              <option value="049">049 南投</option>
+              <option value="05">05 嘉義、雲林</option>
+              <option value="06">06 台南</option>
+              <option value="07">07 高雄</option>
+              <option value="08">08 屏東</option>
+              <option value="082">082 金門</option>
+              <option value="089">089 台東</option>
+              <option value="0836">0836 馬祖</option>
+            </select>
+          </div>
+          <div class="col-8">
+            <label for="phoneNumber">電話號碼</label>
+            <input
+              type="tel"
+              pattern="^[0-9]{6,8}$"
+              class="form-control mb-3"
+              id="phoneNumber"
+              placeholder="輸入您的電話號碼,6-8碼不含區碼"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- 手機號碼 -->
+        <div class="form-group">
+          <label for="mobileNumber">手機號碼</label>
+          <input
+            type="tel"
+            class="form-control mb-3"
+            id="mobileNumber"
+            placeholder="請輸入您的手機號碼"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="請輸入您的Email"
+            required
+          />
+          <small id="emailHelp" class="form-text text-muted"></small>
+        </div>
+
+        <!-- 性別 -->
+        <div class="form-group">
+          <label>性別</label>
+          <div class="d-flex">
+            <div class="custom-control custom-radio custom-border rounded mr-2">
+              <input
+                type="radio"
+                id="male"
+                name="gender"
+                class="custom-control-input"
+                required
+              />
+              <label class="custom-control-label" for="male">生理男</label>
+            </div>
+            <div class="custom-control custom-radio custom-border rounded ml-2">
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                class="custom-control-input"
+                required
+              />
+              <label class="custom-control-label" for="female">生理女</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 生日 -->
+        <div class="form-group">
+          <label for="birthdate">生日</label>
+          <input
+            type="date"
+            class="form-control"
+            id="birthdate"
+            name="birthdate"
+            required
+          />
+        </div>
+
+        <!-- 同伴數量 -->
+        <div class="form-group">
+          <label for="companionCount">同伴數量</label>
+          <input
+            type="number"
+            class="form-control"
+            id="companionCount"
+            name="companionCount"
+            min="0"
+            max="10"
+            value="0"
+            onchange="updateCompanionForm()"
+          />
+        </div>
+
+        <!-- 同伴資料 -->
+        <div id="companionData"></div>
+
+        <!-- 留言板部分 -->
+        <div class="form-group mt-4">
+          <h3>留言板</h3>
+          <label for="comment">留下您的意見或問題：</label>
+          <textarea
+            class="form-control"
+            id="comment"
+            rows="3"
+            placeholder="請輸入您的留言..."
+          ></textarea>
+        </div>
+
+        <!-- reCAPTCHA -->
+        <div
+          class="g-recaptcha"
+          data-sitekey="6LebWDcoAAAAACXrPgOOmm-hoOzAJyw1AuflD0zD"
+        ></div>
+
+        <!-- 送出按鈕 -->
+        <button type="submit" class="btn btn-primary">送出</button>
+      </form>
+    </div>
+    <!-- 計算總金額 -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h2>報名資訊確認</h2>
+        <div id="modalDetails"></div>
+        <div id="modalTotalFee"></div>
+        <div class="modal-buttons">
+          <button id="modalClose">返回</button>
+          <button id="modalSubmit">確認送出</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- importing bootstrap.js and jquery  -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- 引入SSO相關的scripts-->
+    <script type="text/javascript" src="./authConfig.js"></script>
+    <script type="text/javascript" src="./graphConfig.js"></script>
+    <script type="text/javascript" src="./ui.js"></script>
+    <script type="text/javascript" src="./authPopup.js"></script>
+    <script type="text/javascript" src="./graph.js"></script>
+
+    <!-- 主畫面的scripts-->
+    <script src="./app.js"></script>
+  </body>
+</html>
